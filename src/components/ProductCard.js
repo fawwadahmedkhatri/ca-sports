@@ -2,17 +2,18 @@ import { Link } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Tilt3D from './Tilt3D';
 import { C, rs } from '../theme';
+import { plain } from '../catalog';
 
 export default function ProductCard({ p, width }) {
   return (
     <Link href={`/product/${p.id}`} asChild>
-      <Pressable style={StyleSheet.flatten([s.card, { width }])} accessibilityRole="link" accessibilityLabel={`${p.name}, ${rs(p.price)}`}>
+      <Pressable style={StyleSheet.flatten([s.card, { width }])} accessibilityRole="link" accessibilityLabel={`${plain(p.name)}, ${rs(p.price)}`}>
         <Tilt3D uri={p.images[0]} height={width * 1.05} float={false}>
           {p.oldPrice ? <Text style={s.tag}>SALE</Text> : null}
         </Tilt3D>
         <View style={s.meta}>
           <Text style={s.cat}>{p.category.toUpperCase()}</Text>
-          <Text style={s.name} numberOfLines={2}>{p.name}</Text>
+          <Text style={s.name} numberOfLines={2}>{plain(p.name)}</Text>
           <View style={s.row}>
             <Text style={s.price}>{rs(p.price)}</Text>
             {p.oldPrice ? <Text style={s.old}>{rs(p.oldPrice)}</Text> : null}
