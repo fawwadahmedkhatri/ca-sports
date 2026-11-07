@@ -6,6 +6,7 @@ import products from '../../src/data/products.json';
 import Grid, { MAX } from '../../src/components/Grid';
 import { Footer } from '../../src/components/Chrome';
 import { C, WHATSAPP, img, rs } from '../../src/theme';
+import { plain } from '../../src/catalog';
 
 // Drag sideways to "turn" the product: rotates in 3D and steps through the photo angles.
 function Viewer({ images, height }) {
@@ -61,16 +62,16 @@ export default function Product() {
   );
   const wide = width > 900;
   const related = products.filter((x) => x.category === p.category && x.id !== p.id).slice(0, 4);
-  const order = () => Linking.openURL(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(`Hi CA Sports, I want to order: ${p.name} (${rs(p.price)})`)}`);
+  const order = () => Linking.openURL(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(`Hi CA Sports, I want to order: ${plain(p.name)} (${rs(p.price)})`)}`);
 
   return (
     <ScrollView>
-      <Stack.Screen options={{ title: `${p.name} | CA Sports` }} />
+      <Stack.Screen options={{ title: `${plain(p.name)} | CA Sports` }} />
       <View style={[s.wrap, { flexDirection: wide ? 'row' : 'column', paddingHorizontal: width < 600 ? 16 : 40 }]}>
         <View style={{ flex: 1.1 }}><Viewer key={p.id} images={p.images} height={wide ? 560 : 380} /></View>
         <View style={{ flex: 1, gap: 16 }}>
           <Link href={{ pathname: '/shop', params: { cat: p.category } }}><Text style={s.cat}>{p.category.toUpperCase()}</Text></Link>
-          <Text style={s.h1}>{p.name}</Text>
+          <Text style={s.h1}>{plain(p.name)}</Text>
           <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 12 }}>
             <Text style={s.price}>{rs(p.price)}</Text>
             {p.oldPrice ? <Text style={s.old}>{rs(p.oldPrice)}</Text> : null}
@@ -82,11 +83,11 @@ export default function Product() {
           {p.specs.length ? (
             <View style={s.specs}>
               {p.specs.map((x) => (
-                <View key={x.label} style={s.spec}><Text style={s.specL}>{x.label}</Text><Text style={s.specV}>{x.value}</Text></View>
+                <View key={x.label} style={s.spec}><Text style={s.specL}>{plain(x.label)}</Text><Text style={s.specV}>{plain(x.value)}</Text></View>
               ))}
             </View>
           ) : null}
-          {p.highlights.map((h) => <Text key={h} style={s.body}>•  {h}</Text>)}
+          {p.highlights.map((h) => <Text key={h} style={s.body}>•  {plain(h)}</Text>)}
         </View>
       </View>
       {related.length ? (<>
